@@ -103,3 +103,10 @@ after a certain amount of time become slow from one moment to the next. Due
 to the sudden nature of the drop, I first suspected that the V8 JIT was
 de-optimizing my code after a while. However, I was unable to confirm this
 even when starting my benchmark with `--trace-deopt --trace-bailout`.
+
+So I started to plot the memory usage, and discovered something interesting
+when plotting `process.memoryUsage().heapTotal`:
+
+<a href="./faster-than-c/raw/master/figures/mysql2-vs-poc/memory-line.pdf">
+  <img src="./faster-than-c/raw/master/figures/mysql2-vs-poc/memory-line.png">
+</a>
