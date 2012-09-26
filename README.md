@@ -66,8 +66,8 @@ raw data, and that's a problem.
 I'll show you why. Here is a graph comparing my current node-mysql parser
 with another experimental version:
 
-<a href="https://github.com/felixge/faster-than-c/raw/master/figures/mysql2-vs-poc-bar.pdf">
-  <img src="https://github.com/felixge/faster-than-c/raw/master/figures/mysql2-vs-poc-bar.png">
+<a href="./faster-than-c/raw/master/figures/mysql2-vs-poc-bar.pdf">
+  <img src="./faster-than-c/raw/master/figures/mysql2-vs-poc-bar.png">
 </a>
 
 Great! It looks like my new parser is 2x as fast as the current one. But
@@ -76,8 +76,15 @@ will see. It's the usual, here look, A is better than B, so you should use that.
 But it's completely lacking the raw data and any analysis whatsoever.
 
 If this kind of results is all your benchmarking library can do, you should
-throw it away. Because if it was producing the raw data set, you could look
-at it:
+throw it away. Because if it was producing the raw data set, it could be
+analysed much further:
 
 * [mysql2.tsv](./faster-than-c/raw/master/figures/mysql2.tsv)
 * [poc.tsv](./faster-than-c/raw/master/figures/poc.tsv)
+
+For example, when plotting the same data on a jitter graph, it would look
+like this:
+
+<a href="./faster-than-c/raw/master/figures/mysql2-vs-poc-jitter.pdf">
+  <img src="./faster-than-c/raw/master/figures/mysql2-vs-poc-jitter.png">
+</a>
