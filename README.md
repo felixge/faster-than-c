@@ -69,3 +69,8 @@ with another experimental version:
 <a href="https://github.com/felixge/faster-than-c/raw/master/figures/mysql2-vs-poc-bar.pdf">
   <img src="https://github.com/felixge/faster-than-c/raw/master/figures/mysql2-vs-poc-bar.png">
 </a>
+
+Great! It looks like my new parser is 2x as fast as the current one. But
+unfortunately this graph is exactly what is wrong with most benchmarks you
+will see. It's the usual, here look, A is better than B, so you should use that.
+But it's completely lacking the raw data and any analysis whatsoever.
