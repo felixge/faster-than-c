@@ -137,8 +137,25 @@ it now seems reasonable to hypothesize that there is a memory leak, either in
 both parsers, or the setup of the benchmark, causing a performance regression
 over time.
 
-If I was to publish my results at this point, I would include these insights
-into my error analysis. If I had more time, I would dig deeper until I can
-produce a clean data set for making my points.
+Anyway, the whole point of this example was to show you why it's important to
+have benchmarks producing raw data, that you can analyze later.
 
+## Benchmark Toolkit
 
+So if you want to do any performance related work, in any language really, here
+is what I suggest:
+
+* Create a benchmark producing tab separated data points on stdout
+* Cycles per second (Hz) and bytes per second (B/s) are generally good units
+* Add plenty of useful meta data (time, memory, hardware, etc.) to each line
+* Use the unix `tee` program to watch your output and record to a file at the
+  same time.
+* Use the [R Language](http://www.r-project.org/) and
+  [ggplot2](http://ggplot2.org/) to analyze / plot your data
+  (Check out [RStudio](http://rstudio.org/) and this
+  [tutorial](https://github.com/echen/ggplot2-tutorial) to get started quickly)
+* Write R scripts that produce PDF or other vector outputs
+* Annotate your PDFs with [Skitch](http://skitch.com/) or similar
+* Use [imagemagick](http://www.imagemagick.org/script/index.php) to convert your
+  PDFs into PNGs or similar for the web
+* Use Makefiles to combine the various processing steps
