@@ -6,14 +6,13 @@ library(scales)
 outputWidth=8
 outputHeight=6
 
-# If I knew more R, I could probably do this in a loop
-mysql2 <- read.table("./mysql2.tsv", sep="\t", header=T)
-poc <- read.table("./poc.tsv", sep="\t", header=T)
+mysql2 <- read.table("../2-results/mysql2.tsv", sep="\t", header=T)
+poc <- read.table("../2-results/poc.tsv", sep="\t", header=T)
 
 mysql2$time = ISOdatetime(1970,1,1,0,0,0) + mysql2$time / 1000
 poc$time = ISOdatetime(1970,1,1,0,0,0) + poc$time / 1000
 
-combined <- merge(poc, mysql2, all=T)
+combined <- merge(mysql2, poc, all=T)
 
 # Bar plot
 pdf(file="bar.pdf", width=outputWidth, height=outputHeight)
@@ -32,10 +31,9 @@ dev.off()
 # Jitter Graph
 pdf(file="jitter.pdf", width=outputWidth, height=outputHeight)
 
-p <- ggplot(combined, aes(time, hz, color=lib))
+p <- ggplot(combined, aes(lib, hz, color=lib))
 p <- p + scale_y_continuous(label=comma_format())
-p <- p + scale_x_datetime(label=date_format("%H:%M:%S"))
-p + geom_line()
+p + geom_jitter()
 
 dev.off()
 
@@ -44,6 +42,16 @@ pdf(file="line.pdf", width=outputWidth, height=outputHeight)
 
 p <- ggplot(combined, aes(time, hz, color=lib))
 p <- p + scale_y_continuous(label=comma_format())
+p <- p + scale_x_datetime(label=date_format("%H:%M:%S"))
+p + geom_line()
+
+dev.off()
+
+# Memory Line graph
+pdf(file="memory-line.pdf", width=outputWidth, height=outputHeight)
+
+p <- ggplot(combined, aes(time, heapTotal / 1024 / 1024, color=lib))
+p <- p + scale_y_continuous(name="Heap Total (MB)")
 p <- p + scale_x_datetime(label=date_format("%H:%M:%S"))
 p + geom_line()
 
