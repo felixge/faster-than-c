@@ -66,4 +66,4 @@ raw data, and that's a problem.
 I'll show you why. Here is a graph comparing my current node-mysql parser
 with another experimental version:
 
-
+![mysql2-vs-poc-var](https://github.com/felixge/faster-than-c/raw/master/figures/mysql2-poc-bar.png)
