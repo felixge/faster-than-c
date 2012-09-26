@@ -158,4 +158,4 @@ is what I suggest:
 * Annotate your PDFs with [Skitch](http://skitch.com/) or similar
 * Use [imagemagick](http://www.imagemagick.org/script/index.php) to convert your
   PDFs into PNGs or similar for the web
-* Use Makefiles to combine the various processing steps
+* Use Makefiles to automate your benchmark -> analysis pipeline
