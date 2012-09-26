@@ -86,7 +86,7 @@ For example, when plotting the same data on a jitter graph, it would look
 like this:
 
 <a href="./faster-than-c/raw/master/figures/mysql2-vs-poc-jitter.pdf">
-  <img src="./faster-than-c/raw/master/figures/mysql2-vs-poc-jitter.jpeg">
+  <img src="./faster-than-c/raw/master/figures/mysql2-vs-poc-jitter.png">
 </a>
 
 Oh, that's an odd distribution of data points. It seems like the results for
