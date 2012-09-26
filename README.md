@@ -114,7 +114,9 @@ when plotting `process.memoryUsage().heapTotal`:
 Looking at this graph, it seems that there is a correlation between the maximum
 heap total reached in between GC cycles, and the throughput of the benchmark. So
 it now seems reasonable to hypothesize that there is a memory leak, either in
-both parser, or the setup of the benchmark, causing a performance regression
-over time. So if I was to publish my results at this point, I would include these
-insights into my error analysis. If I had more time, I would dig deeper until I
-can produce a clean data set for making my points.
+both parsers, or the setup of the benchmark, causing a performance regression
+over time.
+
+If I was to publish my results at this point, I would include these insights
+into my error analysis. If I had more time, I would dig deeper until I can
+produce a clean data set for making my points.
