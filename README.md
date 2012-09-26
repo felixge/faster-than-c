@@ -91,9 +91,15 @@ like this:
 
 Oh, that's an odd distribution of data points. It seems like the results for
 both parsers split into two categories: fast and slow. One thing is clear now,
-this data can't be used to demonstrate anything until you figure out what
+this data can't be used to demonstrate anything until we figure out what
 is going on. So let's plot those data points on a time scale:
 
 <a href="./faster-than-c/raw/master/figures/mysql2-vs-poc/line.pdf">
   <img src="./faster-than-c/raw/master/figures/mysql2-vs-poc/line.png">
 </a>
+
+Ok, this makes more sense now. It seems like both parsers start out fast, and
+after a certain amount of time become slow from one moment to the next. Due
+to the sudden nature of the drop, I first suspected that the V8 JIT was
+de-optimizing my code after a while. However, I was unable to confirm this
+even when starting my benchmark with `--trace-deopt --trace-bailout`.
