@@ -33,16 +33,34 @@ I mean your first reaction to this should probably have been: MySQL uses a binar
 protocol, implementing this in JavaScript must be insanely slow compared to C!
 
 For a long time, I also thought that this would be the case, and that C based
-implementations would always outperform my pure JS version.
+implementations would always outperform my pure JS version. I mean it was not
+long after I released my library that libmysql bindings for node.js showed up,
+and they were vastly outperforming my library.
 
 However, after spending a good amount of time optimizing my library, I no
-longer believe this to be the case, and would like to present you with the
-results of my research.
+longer believe that C provides huges benefits in this problem domain, and in
+this talk I'll try to show you on how to write very fast JavaScript programs
+yourself.
 
 ## Benchmarking
 
-Before I get started, lets talk about benchmarking. Or more specifically, why
-most benchmarks you see are terrible.
+Before I get started, lets talk about benchmarking. The first question you
+may have is: What benchmarking library should I use?
 
-Most benchmarks are created to show that one thing is faster than another.
-Unfortunately however, creating good benchmarks is a lot of work. And 
+My answer to that is: None, they all suck.
+
+Now don't get me wrong, there are some nice and convenient libraries out there.
+However, almost all of them do something very terrible: They mix data collection
+and analysis into one step.
+
+You know what this reminds me off? Performing SQL queries from within your HTML
+templates. Sure, it's quick & easy, but it's certainly not the best approach
+in many cases.
+
+I mean some of the benchmarking libraries out there are really clever, they will
+do a few warmup rounds on your code before using the results, they will calculate
+statisticals properties such an mean, medium, stand deviation and other things.
+Some may even draw pretty graphs for you. However, most of them don't produce
+raw data, and that's a problem.
+
+
