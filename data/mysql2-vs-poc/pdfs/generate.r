@@ -6,8 +6,8 @@ library(scales)
 outputWidth=8
 outputHeight=6
 
-mysql2 <- read.table("../2-results/mysql2.tsv", sep="\t", header=T)
-poc <- read.table("../2-results/poc.tsv", sep="\t", header=T)
+mysql2 <- read.table("../results/mysql2.tsv", sep="\t", header=T)
+poc <- read.table("../results/poc.tsv", sep="\t", header=T)
 
 mysql2$time = ISOdatetime(1970,1,1,0,0,0) + mysql2$time / 1000
 poc$time = ISOdatetime(1970,1,1,0,0,0) + poc$time / 1000
