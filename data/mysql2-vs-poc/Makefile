@@ -13,6 +13,6 @@ pdfs: $(tsv_files)
 pngs: $(png_files)
 
 pngs/%.png: pdfs/%.pdf
-	convert -density 300 $^ -resize 512x $@
+	convert -density 300 $^ -resize 1024x $@
 
 .PHONY: all pdfs pngs

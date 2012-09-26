@@ -78,7 +78,7 @@ I'll show you why. Here is a graph comparing my current node-mysql parser
 with another experimental version I have been hacking on:
 
 <a href="./faster-than-c/raw/master/data/mysql2-vs-poc/pdfs/bar.pdf">
-  <img src="./faster-than-c/raw/master/data/mysql2-vs-poc/pngs/bar.png">
+  <img width="512" src="./faster-than-c/raw/master/data/mysql2-vs-poc/pngs/bar.png">
 </a>
 
 Great! It looks like my new parser is 2x as fast as the current one. And the
@@ -103,7 +103,7 @@ performance. For example, we can plot the individual data points on a jitter
 graph like this:
 
 <a href="./faster-than-c/raw/master/data/mysql2-vs-poc/pdfs/jitter.pdf">
-  <img src="./faster-than-c/raw/master/data/mysql2-vs-poc/pngs/jitter.png">
+  <img width="512" src="./faster-than-c/raw/master/data/mysql2-vs-poc/pngs/jitter.png">
 </a>
 
 Oh, that's an odd distribution of data points. It seems like the results for
@@ -112,7 +112,7 @@ this data can't be used to demonstrate anything until we figure out what
 is going on. So let's plot those data points on a time scale:
 
 <a href="./faster-than-c/raw/master/data/mysql2-vs-poc/pdfs/line.pdf">
-  <img src="./faster-than-c/raw/master/data/mysql2-vs-poc/pngs/line.png">
+  <img width="512" src="./faster-than-c/raw/master/data/mysql2-vs-poc/pngs/line.png">
 </a>
 
 Ok, this makes more sense now. It seems like both parsers start out fast, and
@@ -128,7 +128,7 @@ to do a new allocation whenever you create an object, which would be rather
 slow. Anyway, when plotting the heapTotal, we get a graph like this:
 
 <a href="./faster-than-c/raw/master/data/mysql2-vs-poc/pdfs/memory-line.pdf">
-  <img src="./faster-than-c/raw/master/data/mysql2-vs-poc/pngs/memory-line.png">
+  <img width="512" src="./faster-than-c/raw/master/data/mysql2-vs-poc/pngs/memory-line.png">
 </a>
 
 Looking at this graph, it seems that there is a correlation between the maximum
