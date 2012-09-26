@@ -6,6 +6,7 @@ library(scales)
 outputWidth=8
 outputHeight=6
 
+# If I knew more R, I could probably do this in a loop
 mysql2 <- read.table("./mysql2.tsv", sep="\t", header=T)
 poc <- read.table("./poc.tsv", sep="\t", header=T)
 

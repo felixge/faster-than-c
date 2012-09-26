@@ -77,8 +77,8 @@ raw data, and that's a problem.
 I'll show you why. Here is a graph comparing my current node-mysql parser
 with another experimental version I have been hacking on:
 
-<a href="./faster-than-c/raw/master/figures/mysql2-vs-poc/bar.pdf">
-  <img src="./faster-than-c/raw/master/figures/mysql2-vs-poc/bar.png">
+<a href="./faster-than-c/raw/master/figures/mysql2-vs-poc/plots/bar.pdf">
+  <img src="./faster-than-c/raw/master/figures/mysql2-vs-poc/plots/bar.png">
 </a>
 
 Great! It looks like my new parser is 2x as fast as the current one. And the
@@ -95,15 +95,15 @@ should throw it away. Instead, all you really need is a standalone script
 that produces the raw data set for you. In case of this graph, the data
 set looks like this:
 
-* [mysql2.tsv](./faster-than-c/raw/master/figures/mysql2-vs-poc/mysql2.tsv)
-* [poc.tsv](./faster-than-c/raw/master/figures/mysql2-vs-poc/poc.tsv)
+* [mysql2.tsv](./faster-than-c/raw/master/figures/mysql2-vs-poc/data/mysql2.tsv)
+* [poc.tsv](./faster-than-c/raw/master/figures/mysql2-vs-poc/data/poc.tsv)
 
 Now we can suddenly do much more with it, than comparing it based on median
 performance. For example, we can plot the individual data points on a jitter
 graph like this:
 
-<a href="./faster-than-c/raw/master/figures/mysql2-vs-poc/jitter.pdf">
-  <img src="./faster-than-c/raw/master/figures/mysql2-vs-poc/jitter.png">
+<a href="./faster-than-c/raw/master/figures/mysql2-vs-poc/plots/jitter.pdf">
+  <img src="./faster-than-c/raw/master/figures/mysql2-vs-poc/plots/jitter.png">
 </a>
 
 Oh, that's an odd distribution of data points. It seems like the results for
@@ -111,8 +111,8 @@ both parsers split into two categories: fast and slow. One thing is clear now,
 this data can't be used to demonstrate anything until we figure out what
 is going on. So let's plot those data points on a time scale:
 
-<a href="./faster-than-c/raw/master/figures/mysql2-vs-poc/line.pdf">
-  <img src="./faster-than-c/raw/master/figures/mysql2-vs-poc/line.png">
+<a href="./faster-than-c/raw/master/figures/mysql2-vs-poc/plots/line.pdf">
+  <img src="./faster-than-c/raw/master/figures/mysql2-vs-poc/plots/line.png">
 </a>
 
 Ok, this makes more sense now. It seems like both parsers start out fast, and
@@ -127,8 +127,8 @@ storing you JavaScript objects in. V8 reserves this memory so it doesn't have
 to do a new allocation whenever you create an object, which would be rather
 slow. Anyway, when plotting the heapTotal, we get a graph like this:
 
-<a href="./faster-than-c/raw/master/figures/mysql2-vs-poc/memory-line.pdf">
-  <img src="./faster-than-c/raw/master/figures/mysql2-vs-poc/memory-line.png">
+<a href="./faster-than-c/raw/master/figures/mysql2-vs-poc/plots/memory-line.pdf">
+  <img src="./faster-than-c/raw/master/figures/mysql2-vs-poc/plots/memory-line.png">
 </a>
 
 Looking at this graph, it seems that there is a correlation between the maximum
