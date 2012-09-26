@@ -79,5 +79,5 @@ If this kind of results is all your benchmarking library can do, you should
 throw it away. Because if it was producing the raw data set, you could look
 at it:
 
-* [mysql2.tsv](./raw/master/figures/mysql2.tsv)
+* [mysql2.tsv](./faster-than-c/raw/master/figures/mysql2.tsv)
 * [poc.tsv](./faster-than-c/raw/master/figures/poc.tsv)
