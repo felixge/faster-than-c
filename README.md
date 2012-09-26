@@ -66,8 +66,8 @@ raw data, and that's a problem.
 I'll show you why. Here is a graph comparing my current node-mysql parser
 with another experimental version:
 
-<a href="./faster-than-c/raw/master/figures/mysql2-vs-poc-bar.pdf">
-  <img src="./faster-than-c/raw/master/figures/mysql2-vs-poc-bar.png">
+<a href="./faster-than-c/raw/master/figures/mysql2-vs-poc/bar.pdf">
+  <img src="./faster-than-c/raw/master/figures/mysql2-vs-poc/bar.png">
 </a>
 
 Great! It looks like my new parser is 2x as fast as the current one. But
@@ -79,14 +79,14 @@ If this kind of results is all your benchmarking library can do, you should
 throw it away. Because if it was producing the raw data set, it could be
 analysed much further:
 
-* [mysql2.tsv](./faster-than-c/raw/master/figures/mysql2.tsv)
-* [poc.tsv](./faster-than-c/raw/master/figures/poc.tsv)
+* [mysql2.tsv](./faster-than-c/raw/master/figures/mysql2-vs-poc/mysql2.tsv)
+* [poc.tsv](./faster-than-c/raw/master/figures/mysql2-vs-poc/poc.tsv)
 
 For example, when plotting the same data on a jitter graph, it would look
 like this:
 
-<a href="./faster-than-c/raw/master/figures/mysql2-vs-poc-jitter.pdf">
-  <img src="./faster-than-c/raw/master/figures/mysql2-vs-poc-jitter.png">
+<a href="./faster-than-c/raw/master/figures/mysql2-vs-poc/jitter.pdf">
+  <img src="./faster-than-c/raw/master/figures/mysql2-vs-poc/jitter.png">
 </a>
 
 Oh, that's an odd distribution of data points. It seems like the results for
@@ -94,6 +94,6 @@ both parsers split into two categories: fast and slow. One thing is clear now,
 this data can't be used to demonstrate anything until you figure out what
 is going on. So let's plot those data points on a time scale:
 
-<a href="./faster-than-c/raw/master/figures/mysql2-vs-poc-line.pdf">
-  <img src="./faster-than-c/raw/master/figures/mysql2-vs-poc-line.png">
+<a href="./faster-than-c/raw/master/figures/mysql2-vs-poc/line.pdf">
+  <img src="./faster-than-c/raw/master/figures/mysql2-vs-poc/line.png">
 </a>
