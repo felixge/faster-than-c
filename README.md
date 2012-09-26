@@ -16,9 +16,9 @@ sane person back then:
 
 Because, if I was a sane person, I probably would have:
 
-a) Picked a platform that already had a MySQL client
-b) Waited for somebody else to do the work
-c) Created a binding for libmysql
+* Picked a platform that already had a MySQL client
+* Waited for somebody else to do the work
+* Created a binding for libmysql
 
 I mean all of these are somewhat reasonable choices, given that my goal at that
 point was to build a [company](http://transloadit.com/), not a database client.

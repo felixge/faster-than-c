@@ -13,9 +13,9 @@ sane person back then:
 
 Because, if I was a sane person, I probably would have:
 
-a) Picked a platform that already had a MySQL client
+a) Created a binding for libmysql
 b) Waited for somebody else to do the work
-c) Created a binding for libmysql
+c) Picked a platform that already had a MySQL client
 
 I mean all of these are somewhat reasonable choices, given that my goal at
 that point was to build a company, not a database client.
@@ -29,24 +29,13 @@ understand. Now is still a good time to switch tracks.
 I mean your first reaction to this should probably have been: MySQL uses a binary
 protocol, implementing this in JavaScript must be insanely slow compared to C!
 
-And your second reaction might be: Why not just create a binding to libmysql,
-it would be so much less work.
+For a long time, I also thought that this would be the case, and that C based
+implementations would always outperform my pure JS version.
 
-Well as I said earlier, there is a good chance I am not an entirely sane
-person, so I don't think I can convince you of everything I do. But ... if
-things go well, maybe I can convince you that JavaScript can be fast enough
-for most stream parsing tasks you will encounter.
+However, after spending a good amount of time optimizing my library, I no
+longer believe this to be the case, and would like to present you with the
+results of my research.
 
-## MySQL Client Live Coding
-
-Before we get into the performance part of this talk, let me give you a quick
-introduction to parsing binary data in JavaScript.
-
-But instead of making up some stupid example, let's try a real world example
-for this. Let's try to implement a MySQL client from scratch.
-
-Unfortunately this slot is only 30 minutes, and I also want to talk about
-performance. So lets limit this to 5 minutes. Just enough time to write the
-worlds shittiest MySQL client.
+## Benchmarking
 
 
