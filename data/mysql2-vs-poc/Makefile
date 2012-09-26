@@ -1,10 +1,12 @@
 SHELL := /bin/bash
 
-PNGS = $(addsuffix .png, $(basename $(wildcard *.pdf)))
+png_files = $(addsuffix .png, $(basename $(wildcard *.pdf)))
 
-ALL: $(PNGS)
+all: pngs
+
+pngs: $(png_files)
 
 %.png: %.pdf
 	convert -density 300 $^ -resize 512x $@
 
-.PHONY: ALL
+.PHONY: all pngs
