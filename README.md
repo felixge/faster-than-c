@@ -63,4 +63,7 @@ statisticals properties such an mean, medium, stand deviation and other things.
 Some may even draw pretty graphs for you. However, most of them don't produce
 raw data, and that's a problem.
 
+I'll show you why. Here is a graph comparing my current node-mysql parser
+with another experimental version:
+
 
