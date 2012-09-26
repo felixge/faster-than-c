@@ -159,6 +159,10 @@ is a benchmarking toolchain that is working well for me:
   PDFs into PNGs or similar for the web
 * Use Makefiles to automate your benchmark -> analysis pipeline
 
-## Why JavaScript can parse the MySQL protocol as fast as C
+## Can JavaScript parse the MySQL protocol as fast as C?
 
-@TODO
+So lets get to the claim in the title of this talk. The answer depends on how
+you look at it. Or more specifically:
+
+* Are you going to look at a MySQL driver used in a higher level language?
+* Are you going
