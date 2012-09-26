@@ -140,10 +140,10 @@ over time.
 Anyway, the whole point of this example was to show you why it's important to
 have benchmarks producing raw data, that you can analyze later.
 
-## Benchmark Toolkit
+## Benchmark Toolchain
 
 So if you want to do any performance related work, in any language really, here
-is what I suggest:
+is a benchmarking toolchain that is working well for me:
 
 * Create a benchmark producing tab separated data points on stdout
 * Cycles per second (Hz) and bytes per second (B/s) are generally good units
