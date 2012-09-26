@@ -88,3 +88,12 @@ like this:
 <a href="./faster-than-c/raw/master/figures/mysql2-vs-poc-jitter.pdf">
   <img src="./faster-than-c/raw/master/figures/mysql2-vs-poc-jitter.png">
 </a>
+
+Oh, that's an odd distribution of data points. It seems like the results for
+both parsers split into two categories: fast and slow. One thing is clear now,
+this data can't be used to demonstrate anything until you figure out what
+is going on. So let's plot those data points on a time scale:
+
+<a href="./faster-than-c/raw/master/figures/mysql2-vs-poc-line.pdf">
+  <img src="./faster-than-c/raw/master/figures/mysql2-vs-poc-line.png">
+</a>
