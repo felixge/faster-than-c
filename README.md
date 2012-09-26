@@ -5,11 +5,12 @@ This document contains the outline and code snippets for my 2012 JSConf.eu talk:
 
 ## Introduction
 
-Hi everybody, my name is [Felix Geisendörfer](http://felixge.de/) and today I'd
-like to talk about "Faster than C? Parsing Node.js Streams!".
+Hi everybody, my name is [Felix Geisendörfer](http://twitter.com/felixge) and
+today I'd like to talk about "Faster than C? Parsing Node.js Streams!".
 
-I have this node.js module called node-mysql.  I started it because in mid 2010
-there were no MySQL modules for node.js.
+I have this node.js module called
+[node-mysql](https://github.com/felixge/node-mysql).  I started it because in
+mid 2010 there were no MySQL modules for node.js.
 
 Unfortunately or fortunately, depending on how you look at it, I was not a very
 sane person back then:
@@ -29,25 +30,35 @@ the MySQL protocol in node.js, using only JavaScript and no C/C++.
 So if you would rather listen to a sane person presenting, I completely
 understand. Now is still a good time to switch tracks.
 
-I mean your first reaction to this should probably have been: MySQL uses a binary
-protocol, implementing this in JavaScript must be insanely slow compared to C!
+I mean your first reaction to this should probably have been: MySQL uses a
+binary protocol, implementing this in JavaScript must perform insanely bad
+compared to C!
 
-For a long time, I also thought that this would be the case, and that C based
-implementations would always outperform my pure JS version. I mean it was not
-long after I released my library that libmysql bindings for node.js showed up,
-and they were vastly outperforming my library.
+So for a long time I thought so as well. Shortly after I released my library,
+other libraries based on libmysql were released, and they vastly outperformed
+my library in many benchmarks.
 
-However, after spending a good amount of time optimizing my library, I no
-longer believe that C provides huges benefits in this problem domain, and in
-this talk I'll try to show you on how to write very fast JavaScript programs
-yourself.
+Initially I thought I would have to accept this. But I always thought that my
+library could perform at least a little bit better. So earlier this year I had
+some time to work on this, and was able to release a new version of my library
+that was much faster. So much faster in fact, that it was beating all other C
+based libraries at that time.
+
+At first I couldn't believe that, but after a lot of experiments, I now no
+longer believe that binary parsers like this must be implemented in C for
+performance reasons. JavaScript can be just as fast.
+
+Later on I will explain in more detail what I mean by this.
 
 ## Benchmarking
 
-Before I get started, lets talk about benchmarking. The first question you
-may have is: What benchmarking library should I use?
+But, before I get started, lets talk about benchmarking. Not because I want to,
+but because it is kind of impossible to talk about performance without talking
+about benchmarks.
 
-My answer to that is: None, they all suck.
+The first question you may have is: What benchmarking library should I use?
+
+My answer to that is: Probably none, most of them suck.
 
 Now don't get me wrong, there are some nice and convenient libraries out there.
 However, almost all of them do something very terrible: They mix data collection
@@ -59,31 +70,37 @@ in many cases.
 
 I mean some of the benchmarking libraries out there are really clever, they will
 do a few warmup rounds on your code before using the results, they will calculate
-statisticals properties such an mean, medium, stand deviation and other things.
+statisticals properties such an mean, median, stand deviation and other things.
 Some may even draw pretty graphs for you. However, most of them don't produce
 raw data, and that's a problem.
 
 I'll show you why. Here is a graph comparing my current node-mysql parser
-with another experimental version:
+with another experimental version I have been hacking on:
 
 <a href="./faster-than-c/raw/master/figures/mysql2-vs-poc/bar.pdf">
   <img src="./faster-than-c/raw/master/figures/mysql2-vs-poc/bar.png">
 </a>
 
-Great! It looks like my new parser is 2x as fast as the current one. But
-unfortunately this graph is exactly what is wrong with most benchmarks you
-will see. It's the usual, here look, A is better than B, so you should use that.
-But it's completely lacking the raw data and any analysis whatsoever.
+Great! It looks like my new parser is 2x as fast as the current one. And the
+current one is already faster than many libmysql bindings. It must be great,
+right?
 
-If this kind of results is all your benchmarking library can do, you should
-throw it away. Because if it was producing the raw data set, it could be
-analysed much further:
+Well, unfortunately this graph is exactly what is wrong with most benchmarks
+you will see. It's the usual, here look, A is better than B, so you should use
+that.  But it's completely lacking the raw data and more importantly, the
+proper analysis, that you can only perform if you have the raw data.
+
+So, if this kind of graph is all your benchmarking library can produce, you
+should throw it away. Instead, all you really need is a standalone script
+that produces the raw data set for you. In case of this graph, the data
+set looks like this:
 
 * [mysql2.tsv](./faster-than-c/raw/master/figures/mysql2-vs-poc/mysql2.tsv)
 * [poc.tsv](./faster-than-c/raw/master/figures/mysql2-vs-poc/poc.tsv)
 
-For example, when plotting the same data on a jitter graph, it would look
-like this:
+Now we can suddenly do much more with it, than comparing it based on median
+performance. For example, we can plot the individual data points on a jitter
+graph like this:
 
 <a href="./faster-than-c/raw/master/figures/mysql2-vs-poc/jitter.pdf">
   <img src="./faster-than-c/raw/master/figures/mysql2-vs-poc/jitter.png">
@@ -105,7 +122,10 @@ de-optimizing my code after a while. However, I was unable to confirm this
 even when starting my benchmark with `--trace-deopt --trace-bailout`.
 
 So I started to plot the memory usage, and discovered something interesting
-when plotting `process.memoryUsage().heapTotal`:
+when plotting the heapTotal. The heapTotal is the amount of memory v8 reserves
+storing you JavaScript objects in. V8 reserves this memory so it doesn't have
+to do a new allocation whenever you create an object, which would be rather
+slow. Anyway, when plotting the heapTotal, we get a graph like this:
 
 <a href="./faster-than-c/raw/master/figures/mysql2-vs-poc/memory-line.pdf">
   <img src="./faster-than-c/raw/master/figures/mysql2-vs-poc/memory-line.png">
@@ -120,3 +140,5 @@ over time.
 If I was to publish my results at this point, I would include these insights
 into my error analysis. If I had more time, I would dig deeper until I can
 produce a clean data set for making my points.
+
+
