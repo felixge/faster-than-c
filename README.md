@@ -151,10 +151,9 @@ is a benchmarking toolchain that is working well for me:
 * Use the unix `tee` program to watch your output and record to a file at the
   same time.
 * Use the [R Language](http://www.r-project.org/) and
-  [ggplot2](http://ggplot2.org/) to analyze / plot your data
+  [ggplot2](http://ggplot2.org/) to analyze / plot your data as pdfs
   (Check out [RStudio](http://rstudio.org/) and this
   [tutorial](https://github.com/echen/ggplot2-tutorial) to get started quickly)
-* Write R scripts that produce PDF or other vector outputs
 * Annotate your PDFs with [Skitch](http://skitch.com/) or similar
 * Use [imagemagick](http://www.imagemagick.org/script/index.php) to convert your
   PDFs into PNGs or similar for the web
