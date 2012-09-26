@@ -110,3 +110,8 @@ when plotting `process.memoryUsage().heapTotal`:
 <a href="./faster-than-c/raw/master/figures/mysql2-vs-poc/memory-line.pdf">
   <img src="./faster-than-c/raw/master/figures/mysql2-vs-poc/memory-line.png">
 </a>
+
+Looking at this graph, it seems that there is a correlation between the maximum
+heap total reached in between GC cycles, and the throughput of the benchmark.
+
+
