@@ -74,3 +74,10 @@ Great! It looks like my new parser is 2x as fast as the current one. But
 unfortunately this graph is exactly what is wrong with most benchmarks you
 will see. It's the usual, here look, A is better than B, so you should use that.
 But it's completely lacking the raw data and any analysis whatsoever.
+
+If this kind of results is all your benchmarking library can do, you should
+throw it away. Because if it was producing the raw data set, you could look
+at it:
+
+* [mysql2.tsv](./raw/master/figures/mysql2.tsv)
+* [poc.tsv](./faster-than-c/raw/master/figures/poc.tsv)
