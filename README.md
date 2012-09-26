@@ -159,3 +159,7 @@ is what I suggest:
 * Use [imagemagick](http://www.imagemagick.org/script/index.php) to convert your
   PDFs into PNGs or similar for the web
 * Use Makefiles to automate your benchmark -> analysis pipeline
+
+## Why JavaScript can parse the MySQL protocol as fast as C
+
+@TODO
