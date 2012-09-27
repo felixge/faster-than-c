@@ -1,18 +1,27 @@
 SHELL := /bin/bash
 
-tsv_files = $(wildcard esults/*.tsv)
+fixtures = benchmark/fixtures/100k-blog-rows.mysql
+tsv_files = $(wildcard results/*.tsv)
 png_files = $(subst pdf,png,$(wildcard pdfs/*.pdf))
 
-$(info $(png_files))
+all: pdfs pngs tsvs fixtures
 
-all: pdfs pngs
+fixtures: $(fixtures)
+
+tsvs: $(tsv_files)
+
+$(tsv_files): results/%.tsv: benchmark/%/run.js
+	./$^ | tee $@
+
+$(fixtures):
+	curl -z '$@' -o '$@' 'http://felixge.s3.amazonaws.com/12/`basename $@`'
 
 pdfs: $(tsv_files)
 	cd pdfs && ./generate.r
 
 pngs: $(png_files)
 
-pngs/%.png: pdfs/%.pdf
+$(png_files): pngs/%.png: pdfs/%.pdf
 	convert -density 300 $^ -resize 1024x $@
 
-.PHONY: all pdfs pngs
+.PHONY: all fixtures pdfs pngs tsvs $(tsv_files)

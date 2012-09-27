@@ -1,0 +1,14 @@
+{
+  "name": "mysql2",
+  "version": "0.0.0",
+  "dependencies": {
+    "mysql": {
+      "version": "2.0.0-alpha3",
+      "dependencies": {
+        "require-all": {
+          "version": "0.0.3"
+        }
+      }
+    }
+  }
+}
