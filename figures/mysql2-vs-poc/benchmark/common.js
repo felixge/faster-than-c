@@ -1,4 +1,4 @@
-var iterations = 10;
+var iterations = 200;
 
 var FixtureStream = require('./FixtureStream');
 
@@ -11,7 +11,7 @@ var fields = [
 ];
 
 function printHeaders() {
-  console.log(['hz', 'time', 'lib', 'heapUsed', 'heapTotal', 'rss'].join('\t'));
+  console.log(['hz', 'time', 'lib', 'rss', 'heapUsed', 'heapTotal'].join('\t'));
 }
 
 var printedHeaders = false;

@@ -24,4 +24,4 @@ pngs: $(png_files)
 $(png_files): pngs/%.png: pdfs/%.pdf
 	convert -density 300 $^ -resize 1024x $@
 
-.PHONY: all fixtures pdfs pngs tsvs $(tsv_files)
+.PHONY: all fixtures pdfs pngs tsvs
