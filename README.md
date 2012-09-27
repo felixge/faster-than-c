@@ -125,7 +125,7 @@ So I started to plot the memory usage, and discovered something interesting
 when plotting the heapTotal. The heapTotal is the amount of memory v8 reserves
 storing you JavaScript objects in. V8 reserves this memory so it doesn't have
 to do a new allocation whenever you create an object, which would be rather
-slow. Anyway, when plotting the heapTotal, we get a graph like this:
+slow. Anyway, when plotting the heapUsage, we get a graph like this:
 
 <a href="./faster-than-c/raw/master/figures/mysql2-vs-poc/pdfs/memory-line.pdf">
   <img width="512" src="./faster-than-c/raw/master/figures/mysql2-vs-poc/pngs/memory-line.png">

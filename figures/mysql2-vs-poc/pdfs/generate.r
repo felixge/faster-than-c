@@ -43,7 +43,7 @@ ggsave(filename="line.pdf", width=outputWidth, height=outputHeight)
 
 # Memory Line graph
 p <- ggplot(combined, aes(time, heapUsed / 1024 / 1024, color=lib))
-p <- p + scale_y_continuous(name="Heap Total (MB)")
+p <- p + labs(y = "Heap Used (MB)")
 p <- p + scale_x_datetime(label=date_format("%H:%M:%S"))
 p + geom_line()
 
