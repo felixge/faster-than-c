@@ -122,23 +122,34 @@ de-optimizing my code after a while. However, I was unable to confirm this
 even when starting my benchmark with `--trace-deopt --trace-bailout`.
 
 So I started to plot the memory usage, and discovered something interesting
-when plotting the heapTotal. The heapTotal is the amount of memory v8 reserves
-storing you JavaScript objects in. V8 reserves this memory so it doesn't have
-to do a new allocation whenever you create an object, which would be rather
-slow. Anyway, when plotting the heapUsage, we get a graph like this:
+when plotting the heapUsed. That's the amount of memory V8 is currently using
+to store my JavaScript objects in.
 
-<a href="./faster-than-c/raw/master/figures/mysql2-vs-poc/pdfs/memory-line.pdf">
-  <img width="512" src="./faster-than-c/raw/master/figures/mysql2-vs-poc/pngs/memory-line.png">
+<a href="./faster-than-c/raw/master/figures/mysql2-vs-poc/pdfs/heap-used-line.pdf">
+  <img width="512" src="./faster-than-c/raw/master/figures/mysql2-vs-poc/pngs/heap-used-line.png">
 </a>
 
 Looking at this graph, it seems that there is a correlation between the maximum
-heap total reached in between GC cycles, and the throughput of the benchmark. So
-it now seems reasonable to hypothesize that there is a memory leak, either in
-both parsers, or the setup of the benchmark, causing a performance regression
-over time.
+heap used in between GC cycles, and the throughput of the benchmark. This could
+indicate a memory leak. However, after the first performance regression, it
+seems like the heap is no longer growing.
+
+Another look at the heapTotal, which is the total amount of memory allocated
+by v8, some of it always empty, reveals a similar picture:
+
+<a href="./faster-than-c/raw/master/figures/mysql2-vs-poc/pdfs/heap-total-line.pdf">
+  <img width="512" src="./faster-than-c/raw/master/figures/mysql2-vs-poc/pngs/heap-total-line.png">
+</a>
+
+As we can see, our performance problem seem to be correlated with v8 deciding to
+grow the heap total. From this data it is still unclear to me if v8 is making
+the wrong decision by growing the heap total here, or if there is a problem in
+my code, causing this performance issue.
 
 Anyway, the whole point of this example was to show you why it's important to
-have benchmarks producing raw data, that you can analyze later.
+have benchmarks producing raw data. If you don't have the raw data, you're never
+going to to be able to analyze your benchmarks for problems like this, always
+running the risk of fooling yourself.
 
 ## Benchmark Toolchain
 
@@ -159,10 +170,18 @@ is a benchmarking toolchain that is working well for me:
   PDFs into PNGs or similar for the web
 * Use Makefiles to automate your benchmark -> analysis pipeline
 
-## Can JavaScript parse the MySQL protocol as fast as C?
+## Parsing binary streams in node.js
 
-So lets get to the claim in the title of this talk. The answer depends on how
-you look at it. Or more specifically:
+Now let's talk about parsing binary streams in node.js. If you have not parsed
+a binary stream in node.js or another plattform before, here is a quick example.
 
-* Are you going to look at a MySQL driver used in a higher level language?
-* Are you going
+Let's say we want to write a MySQL client.
+
+( Live coding, code available [here](./faster-than-c/raw/master/figures/mysql-client/client.js) )
+
+So as you can see, parsing binary data itself is not so hard. What's hard is
+keeping track of your internal state. Because the parser we just wrote is
+inherently broken because it does not handle the case where we only receive
+a partial handshake packet from our server in our first 'data' event. So in
+my first node-mysql version, I tackled this with a huge state machine / switch
+statement.
