@@ -3,12 +3,12 @@ SHELL := /bin/bash
 tsv_files = $(addprefix results/,$(addsuffix .tsv,$(benchmarks)))
 png_files = $(subst pdf,png,$(wildcard pdfs/*.pdf))
 
-all: pdfs pngs tsvs
+all: pdfs pngs results
 
 $(tsv_files):
 	./benchmark/run.js "`basename $@ .tsv`" | tee $@
 
-tsvs: $(tsv_files)
+results: $(tsv_files)
 
 pdfs: $(tsv_files)
 	./pdfs.r
@@ -21,4 +21,4 @@ $(png_files): pngs/%.png: pdfs/%.pdf
 clean:
 	rm -f results/*.tsv pngs/*.png pdfs/*.pdf
 
-.PHONY: all pdfs pngs tsvs clean
+.PHONY: all pdfs pngs results clean

@@ -7,6 +7,7 @@ exports.run = function(name, benchmark) {
 
   function run() {
     if (startup + duration < Date.now()) {
+      process.exit(0);
       return;
     }
 
