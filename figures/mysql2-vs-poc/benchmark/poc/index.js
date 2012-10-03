@@ -1,9 +1,6 @@
-#!/usr/bin/env node
-
-var common   = require('../common');
 var Protocol = require('./Protocol');
 
-common.run('poc', function(stream, fields, cb) {
+module.exports = function(stream, fields, cb) {
   var protocol = new Protocol();
 
   // This would normally happen when the fields are received
@@ -21,4 +18,4 @@ common.run('poc', function(stream, fields, cb) {
     .on('end', function() {
       cb(null, rows);
     });
-});
+};

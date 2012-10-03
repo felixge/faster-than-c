@@ -1,10 +1,7 @@
-#!/usr/bin/env node
-
-var common        = require('../common');
 var Parser        = require('mysql/lib/protocol/Parser');
 var RowDataPacket = require('mysql/lib/protocol/packets/RowDataPacket');
 
-common.run('mysql2', function(stream, fields, cb) {
+module.exports = function(stream, fields, cb) {
   var parser = new Parser({packetParser: onPacket});
   parser._nextPacketNumber = 8;
 
@@ -23,4 +20,4 @@ common.run('mysql2', function(stream, fields, cb) {
     .on('end', function() {
       cb(null, rows);
     });
-});
+};

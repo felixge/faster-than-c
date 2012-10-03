@@ -1,27 +1,33 @@
-SHELL := /bin/bash
+benchmarks = poc mysql2
 
-fixtures = benchmark/fixtures/100k-blog-rows.mysql
-tsv_files = $(wildcard results/*.tsv)
-png_files = $(subst pdf,png,$(wildcard pdfs/*.pdf))
+include ../common.mk
 
-all: pdfs pngs tsvs fixtures
 
-fixtures: $(fixtures)
+#SHELL := /bin/bash
 
-tsvs: $(tsv_files)
+#benchmarks = poc mysql2
+#tsv_files = $(addprefix results/,$(addsuffix .tsv,$(benchmarks)))
+#fixtures = benchmark/fixtures/100k-blog-rows.mysql
+#png_files = $(subst pdf,png,$(wildcard pdfs/*.pdf))
 
-$(tsv_files): results/%.tsv: benchmark/%/run.js
-	./$^ | tee $@
+#all: pdfs pngs tsvs fixtures
 
-$(fixtures):
-	curl -z '$@' -o '$@' 'http://felixge.s3.amazonaws.com/12/`basename $@`'
+#fixtures: $(fixtures)
 
-pdfs: $(tsv_files)
-	cd pdfs && ./generate.r
+#tsvs: $(tsv_files)
 
-pngs: $(png_files)
+#$(tsv_files): results/%.tsv: benchmark/%/run.js
+	#./$^ | tee $@
 
-$(png_files): pngs/%.png: pdfs/%.pdf
-	convert -density 300 $^ -resize 1024x $@
+#$(fixtures):
+	#curl -z '$@' -o '$@' 'http://felixge.s3.amazonaws.com/12/`basename $@`'
 
-.PHONY: all fixtures pdfs pngs tsvs
+#pdfs: $(tsv_files)
+	#cd pdfs && ./generate.r
+
+#pngs: $(png_files)
+
+#$(png_files): pngs/%.png: pdfs/%.pdf
+	#convert -density 300 $^ -resize 1024x $@
+
+#.PHONY: all fixtures pdfs pngs tsvs
