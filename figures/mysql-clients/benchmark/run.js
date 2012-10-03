@@ -17,7 +17,7 @@ lib.connect(options, function(err, connection) {
     lib.query(connection, 'SELECT * FROM blog_posts', function(err, rows, bytes) {
       if (err) throw err;
 
-      cb(null, {rows: rows});
+      cb(null, {rows: rows, bytes: bytes});
     });
   });
 });

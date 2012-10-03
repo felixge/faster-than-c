@@ -11,11 +11,14 @@ exports.query = function(connection, sql, cb) {
   var query = connection.query(sql);
   var rows = 0;
 
+  var byteOffset = connection._socket.bytesRead;
+
   query
     .on('result', function(row) {
       rows++;
     })
     .on('end', function() {
-      cb(null, rows);
+      var bytes = connection._socket.bytesRead - byteOffset;
+      cb(null, rows, bytes);
     });
 };
