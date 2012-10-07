@@ -77,6 +77,9 @@ being much faster:
 
 <img width="640" src="./faster-than-c/raw/master/figures/mysql-libs/pngs/a-b.png">
 
+This, benchmarks shows the performance of parsing 100.000 rows / ~180 MB of
+network data from the MySQL server.
+
 Initially I thought, fuck, of course. libmysql is written in C, that's why
 Oleg's library is much faster. Maybe I can optimize mine and get another 10-20%
 performance boost, but there is no way I can get a 300% increase.
@@ -226,6 +229,33 @@ solving the same problem as me:
 * try...catch is ok
 * big switch statements = bad
 * function calls are *really* cheap
+* buffering / concatinating buffers is ok
+* eval is awesome
+
+Here is the eval example:
+
+```js
+function parseRow(columns, parser) {
+  var row = {};
+  for (var i = 0; i < columns.length; i++) {
+    row[columns[i].name] = parser.readColumnValue();
+  }
+}
+```
+
+Turns out this can be made much faster by doing this:
+
+```js
+var code = 'return {\n';
+
+columns.forEach(function(column) {
+  code += '"' + column.name + '":' + 'parser.readColumnValue(),\n';
+});
+
+code += '};\n';
+
+var parseRow = new Function('columns', 'parser', code);
+```
 
 ### Data analysis
 
@@ -264,150 +294,29 @@ Well, let's look at it another way. Here is a jitter plot:
 
 <img width="640" src="./faster-than-c/raw/master/figures/mysql2-vs-poc/pngs/jitter.png">
 
+Ok, looks like we have a problem, why are there two clusters of data points
+in each benchmark? Well, let's look at this data another way:
 
+<img width="640" src="./faster-than-c/raw/master/figures/mysql2-vs-poc/pngs/line.png">
 
+So, it seems like performance starts out great, but then something happens and
+things go to hell. Well, I'm not sure what it is yet, but I have a strong suspect.
+Let's have a look at this graph showing the heap used:
 
-<!-- Mention Buffering -->
+<img width="640" src="./faster-than-c/raw/master/figures/mysql2-vs-poc/pngs/heap-used.png">
 
+As you can see, it seems during the same moment our performance goes to shit,
+v8 decides to give more memory to our programs before performing garbage
+collection.
 
-## What does work
+This can also be seen when looking at the heap total:
 
-So after hitting a wall with profiling, I decided to try a new approach. And it
-turns out this approach is working really well for me.
+<img width="640" src="./faster-than-c/raw/master/figures/mysql2-vs-poc/pngs/heap-total.png">
 
+So, chances are good that v8 is making the wrong call by growing the heap total
+here. There is also a good chance I'm still doing something stupid. Either way,
+I have identified a significant problem in my quest for performance and I can
+now try to fix it. And that's why you should properly analyze your benchmark
+data.
 
-## Benchmarking
-
-But, before I get started, lets talk about benchmarking. Not because I want to,
-but because it is kind of impossible to talk about performance without talking
-about benchmarks.
-
-The first question you may have is: What benchmarking library should I use?
-
-My answer to that is: Probably none, most of them suck.
-
-Now don't get me wrong, there are some nice and convenient libraries out there.
-However, almost all of them do something very terrible: They mix data collection
-and analysis into one step.
-
-You know what this reminds me off? Performing SQL queries from within your HTML
-templates. Sure, it's quick & easy, but it's certainly not the best approach
-in many cases.
-
-I mean some of the benchmarking libraries out there are really clever, they will
-do a few warmup rounds on your code before using the results, they will calculate
-statisticals properties such an mean, median, stand deviation and other things.
-Some may even draw pretty graphs for you. However, most of them don't produce
-raw data, and that's a problem.
-
-I'll show you why. Here is a graph comparing my current node-mysql parser
-with another experimental version I have been hacking on:
-
-<a href="./faster-than-c/raw/master/figures/mysql2-vs-poc/pdfs/bar.pdf">
-  <img width="512" src="./faster-than-c/raw/master/figures/mysql2-vs-poc/pngs/bar.png">
-</a>
-
-Great! It looks like my new parser is 2x as fast as the current one. And the
-current one is already faster than many libmysql bindings. It must be great,
-right?
-
-Well, unfortunately this graph is exactly what is wrong with most benchmarks
-you will see. It's the usual, here look, A is better than B, so you should use
-that.  But it's completely lacking the raw data and more importantly, the
-proper analysis, that you can only perform if you have the raw data.
-
-So, if this kind of graph is all your benchmarking library can produce, you
-should throw it away. Instead, all you really need is a standalone script
-that produces the raw data set for you. In case of this graph, the data
-set looks like this:
-
-* [mysql2.tsv](./faster-than-c/raw/master/figures/mysql2-vs-poc/results/mysql2.tsv)
-* [poc.tsv](./faster-than-c/raw/master/figures/mysql2-vs-poc/results/poc.tsv)
-
-Now we can suddenly do much more with it, than comparing it based on median
-performance. For example, we can plot the individual data points on a jitter
-graph like this:
-
-<a href="./faster-than-c/raw/master/figures/mysql2-vs-poc/pdfs/jitter.pdf">
-  <img width="512" src="./faster-than-c/raw/master/figures/mysql2-vs-poc/pngs/jitter.png">
-</a>
-
-Oh, that's an odd distribution of data points. It seems like the results for
-both parsers split into two categories: fast and slow. One thing is clear now,
-this data can't be used to demonstrate anything until we figure out what
-is going on. So let's plot those data points on a time scale:
-
-<a href="./faster-than-c/raw/master/figures/mysql2-vs-poc/pdfs/line.pdf">
-  <img width="512" src="./faster-than-c/raw/master/figures/mysql2-vs-poc/pngs/line.png">
-</a>
-
-Ok, this makes more sense now. It seems like both parsers start out fast, and
-after a certain amount of time become slow from one moment to the next. Due
-to the sudden nature of the drop, I first suspected that the V8 JIT was
-de-optimizing my code after a while. However, I was unable to confirm this
-even when starting my benchmark with `--trace-deopt --trace-bailout`.
-
-So I started to plot the memory usage, and discovered something interesting
-when plotting the heapUsed. That's the amount of memory V8 is currently using
-to store my JavaScript objects in.
-
-<a href="./faster-than-c/raw/master/figures/mysql2-vs-poc/pdfs/heap-used-line.pdf">
-  <img width="512" src="./faster-than-c/raw/master/figures/mysql2-vs-poc/pngs/heap-used-line.png">
-</a>
-
-Looking at this graph, it seems that there is a correlation between the maximum
-heap used in between GC cycles, and the throughput of the benchmark. This could
-indicate a memory leak. However, after the first performance regression, it
-seems like the heap is no longer growing.
-
-Another look at the heapTotal, which is the total amount of memory allocated
-by v8, some of it always empty, reveals a similar picture:
-
-<a href="./faster-than-c/raw/master/figures/mysql2-vs-poc/pdfs/heap-total-line.pdf">
-  <img width="512" src="./faster-than-c/raw/master/figures/mysql2-vs-poc/pngs/heap-total-line.png">
-</a>
-
-As we can see, our performance problem seem to be correlated with v8 deciding to
-grow the heap total. From this data it is still unclear to me if v8 is making
-the wrong decision by growing the heap total here, or if there is a problem in
-my code, causing this performance issue.
-
-Anyway, the whole point of this example was to show you why it's important to
-have benchmarks producing raw data. If you don't have the raw data, you're never
-going to to be able to analyze your benchmarks for problems like this, always
-running the risk of fooling yourself.
-
-## Benchmark Toolchain
-
-So if you want to do any performance related work, in any language really, here
-is a benchmarking toolchain that is working well for me:
-
-* Create a benchmark producing tab separated data points on stdout
-* Cycles per second (Hz) and bytes per second (B/s) are generally good units
-* Add plenty of useful meta data (time, memory, hardware, etc.) to each line
-* Use the unix `tee` program to watch your output and record to a file at the
-  same time.
-* Use the [R Language](http://www.r-project.org/) and
-  [ggplot2](http://ggplot2.org/) to analyze / plot your data as pdfs
-  (Check out [RStudio](http://rstudio.org/) and this
-  [tutorial](https://github.com/echen/ggplot2-tutorial) to get started quickly)
-* Annotate your PDFs with [Skitch](http://skitch.com/) or similar
-* Use [imagemagick](http://www.imagemagick.org/script/index.php) to convert your
-  PDFs into PNGs or similar for the web
-* Use Makefiles to automate your benchmark -> analysis pipeline
-
-## Parsing binary streams in node.js
-
-Now let's talk about parsing binary streams in node.js. If you have not parsed
-a binary stream in node.js or another plattform before, here is a quick example.
-
-Let's say we want to write a MySQL client.
-
-( Live coding, code available [here](./faster-than-c/raw/master/figures/mysql-client/client.js) )
-
-So as you can see, parsing binary data itself is not so hard. What's hard is
-keeping track of your internal state. Because the parser we just wrote is
-inherently broken because it does not handle the case where we only receive
-a partial handshake packet from our server in our first 'data' event. So in
-my first node-mysql version, I tackled this with a huge state machine / switch
-statement.
+That's all I got. Thank you.

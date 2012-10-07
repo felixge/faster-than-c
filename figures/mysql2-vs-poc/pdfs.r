@@ -32,25 +32,25 @@ p <- ggplot(results, aes(benchmark, mbit, color=benchmark))
 p <- p + scale_y_continuous(label=comma_format())
 p + geom_jitter()
 
-ggsave(filename="pdfs/jitter.pdf", width=outputWidth, height=outputHeight)
+ggsave(filename="pdfs/jitter.pdf", width=outputWidth, height=outputHeight)
 
 # Line graph
 p <- ggplot(results, aes(number, mbit, color=benchmark))
 p <- p + scale_y_continuous(label=comma_format())
 p + geom_line()
 
-ggsave(filename="pdfs/mbit-line.pdf", width=outputWidth, height=outputHeight)
+ggsave(filename="pdfs/line.pdf", width=outputWidth, height=outputHeight)
 
 # Heap Used
 p <- ggplot(results, aes(number, heapUsed / 1024 / 1024, color=benchmark))
 p <- p + labs(y = "Heap Used (MB)")
 p + geom_line()
 
-ggsave(filename="pdfs/heap-used-line.pdf", width=outputWidth, height=outputHeight)
+ggsave(filename="pdfs/heap-used.pdf", width=outputWidth, height=outputHeight)
 
 # Heap Total
 p <- ggplot(results, aes(number, heapTotal / 1024 / 1024, color=benchmark))
 p <- p + labs(y = "Heap Total (MB)")
 p + geom_line()
 
-ggsave(filename="pdfs/heap-total-line.pdf", width=outputWidth, height=outputHeight)
+ggsave(filename="pdfs/heap-total.pdf", width=outputWidth, height=outputHeight)
