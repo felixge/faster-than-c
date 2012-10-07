@@ -17,12 +17,22 @@ results <- lapply(files, function(.file){
 
 results <- do.call(rbind, results)
 
+# Bar
+a <- data.frame(benchmark = c('mysql2'), mbit = c(median(subset(results, benchmark == "mysql2")$mbit)))
+b <- data.frame(benchmark = c('poc'), mbit = c(median(subset(results, benchmark == "poc")$mbit)))
+
+p <- ggplot(rbind(a,b), aes(benchmark, mbit, fill=benchmark))
+p <- p + scale_y_continuous(label=comma_format())
+p + geom_bar()
+
+ggsave(filename="pdfs/bar.pdf", width=outputWidth, height=outputHeight)
+
 # Jitter Graph
 p <- ggplot(results, aes(benchmark, mbit, color=benchmark))
 p <- p + scale_y_continuous(label=comma_format())
 p + geom_jitter()
 
-ggsave(filename="pdfs/mbit-jitter.pdf", width=outputWidth, height=outputHeight)
+ggsave(filename="pdfs/jitter.pdf", width=outputWidth, height=outputHeight)
 
 # Line graph
 p <- ggplot(results, aes(number, mbit, color=benchmark))

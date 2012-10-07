@@ -5,6 +5,7 @@ var libName = process.argv[2];
 var lib     = require('./libs/' + libName);
 
 var options = {
+  host     : 'localhost',
   user     : 'root',
   password : 'root',
   database : 'node_mysql_test',

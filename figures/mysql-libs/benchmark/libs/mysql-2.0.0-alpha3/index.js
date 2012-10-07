@@ -1,6 +1,7 @@
 var mysql = require('mysql');
 
 exports.connect = function(options, cb) {
+  options.typeCast = false;
   var connection = mysql.createConnection(options);
   connection.connect(function(err) {
     cb(err, connection);
