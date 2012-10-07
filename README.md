@@ -314,9 +314,18 @@ This can also be seen when looking at the heap total:
 <img width="640" src="./faster-than-c/raw/master/figures/mysql2-vs-poc/pngs/heap-total.png">
 
 So, chances are good that v8 is making the wrong call by growing the heap total
-here. There is also a good chance I'm still doing something stupid. Either way,
-I have identified a significant problem in my quest for performance and I can
-now try to fix it. And that's why you should properly analyze your benchmark
-data.
+here. There is also a good chance I'm still doing something stupid.
+
+Either way, I have identified a significant problem in my quest for performance
+and I can now try to fix it.
+
+And now you know almost everything there is to know about writing high
+performance JavaScript:
+
+* Collect data
+* Analyze it
+* Find problems
+* Fix them
+* Repeat
 
 That's all I got. Thank you.
