@@ -58,7 +58,7 @@ motion:
 > simultaneously exerts a force F2 = −F1 on the first body. This means that F1
 > and F2 are equal in magnitude and opposite in direction.
 
-Now, of course Github did no exist back then, but I'm pretty sure that if it
+Now, of course Github did not exist back then, but I'm pretty sure that if it
 did, Newton would have become a programmer, and he would have discovered
 something like this.
 
@@ -233,7 +233,7 @@ solving the same problem as me:
 * try...catch is ok
 * big switch statements = bad
 * function calls are *really* cheap
-* buffering / concatinating buffers is ok
+* buffering / concatenating buffers is ok
 * eval is awesome
 
 Here is the eval example:
