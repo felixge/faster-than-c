@@ -121,7 +121,7 @@ performance.
 So ... I am hacking on a new parser again. And from the looks of it, it will
 allow me to be as fast as the mariaqsql library:
 
-<img width="640" src="./faster-than-c/raw/master/figures/mysql2-vs-poc/pngs/bar.png">
+<img width="640" src="./faster-than-c/raw/master/figures/mysql2-vs-new-parser/pngs/bar.png">
 
 Of course, the 3rd law of GitHub would predict that this won't last very long,
 
@@ -288,22 +288,22 @@ no. Otherwise you end up with bullshit. In fact, all of the benchmark graphs
 I have shown you so far are complete bullshit. Remember the benchmark showing
 the performance of my new parser?
 
-<img width="640" src="./faster-than-c/raw/master/figures/mysql2-vs-poc/pngs/bar.png">
+<img width="640" src="./faster-than-c/raw/master/figures/mysql2-vs-new-parser/pngs/bar.png">
 
 Well, let's look at it another way. Here is a jitter plot:
 
-<img width="640" src="./faster-than-c/raw/master/figures/mysql2-vs-poc/pngs/jitter.png">
+<img width="640" src="./faster-than-c/raw/master/figures/mysql2-vs-new-parser/pngs/jitter.png">
 
 Ok, looks like we have a problem, why are there two clusters of data points
 in each benchmark? Well, let's look at this data another way:
 
-<img width="640" src="./faster-than-c/raw/master/figures/mysql2-vs-poc/pngs/line.png">
+<img width="640" src="./faster-than-c/raw/master/figures/mysql2-vs-new-parser/pngs/line.png">
 
 So, it seems like performance starts out great, but then something happens and
 things go to hell. Well, I'm not sure what it is yet, but I have a strong suspect.
 Let's have a look at this graph showing the heap used:
 
-<img width="640" src="./faster-than-c/raw/master/figures/mysql2-vs-poc/pngs/heap-used.png">
+<img width="640" src="./faster-than-c/raw/master/figures/mysql2-vs-new-parser/pngs/heap-used.png">
 
 As you can see, it seems during the same moment our performance goes to shit,
 v8 decides to give more memory to our programs before performing garbage
@@ -311,7 +311,7 @@ collection.
 
 This can also be seen when looking at the heap total:
 
-<img width="640" src="./faster-than-c/raw/master/figures/mysql2-vs-poc/pngs/heap-total.png">
+<img width="640" src="./faster-than-c/raw/master/figures/mysql2-vs-new-parser/pngs/heap-total.png">
 
 So, chances are good that v8 is making the wrong call by growing the heap total
 here. There is also a good chance I'm still doing something stupid.

@@ -1,4 +1,4 @@
-var duration = 10 * 1000;
+var duration = 90 * 1000;
 
 exports.run = function(name, benchmark) {
   var startup = Date.now();
