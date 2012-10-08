@@ -9,8 +9,8 @@ Hi everybody, my name is [Felix Geisendörfer](http://twitter.com/felixge) and
 today I'd like to talk about "Faster than C? Parsing Node.js Streams!".
 
 Before I get started, I would like to appologize for the "Title Bait". This
-talk is analyzing the performance of JavaScript vs C-Bindings in node.js, but
-not JavaScript vs. C itself.
+talk is analyzing the performance of JavaScript vs C-Bindings for MySQL in
+node.js, but not JavaScript vs. C itself.
 
 So, I have this module I wrote that lets you talk to MySQL databases in
 node.js. I started it because in early 2010 there were no MySQL modules for
