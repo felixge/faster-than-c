@@ -8,7 +8,9 @@ This document contains the outline and code snippets for my 2012 JSConf.eu talk:
 Hi everybody, my name is [Felix Geisendörfer](http://twitter.com/felixge) and
 today I'd like to talk about "Faster than C? Parsing Node.js Streams!".
 
-<!-- Add transloadit slide -->
+Before I get started, I would like to appologize for the "Title Bait". This
+talk is analyzing the performance of JavaScript vs C-Bindings in node.js, but
+not JavaScript vs. C itself.
 
 So, I have this module I wrote that lets you talk to MySQL databases in
 node.js. I started it because in early 2010 there were no MySQL modules for
@@ -125,11 +127,14 @@ allow me to be as fast as the mariaqsql library:
 
 Of course, the 3rd law of GitHub would predict that this won't last very long,
 
-And from everything I have seen, this is when it will be over. JavaScript will
-no longer be the bottleneck. At this point the main cost is turning network
-data into JavaScript objects. This cost is equal for JavaScript libraries, as
-well as for C++ addons making V8 calls. Also, when a single client can process
-5000 MBit/s utilizing a single CPU, your MySQL server has long exploded.
+However, I don't think that will be the case this time. I think we are
+approaching the "Endgame".  The "Engame" is the point where the main bottleneck
+will be the cost of turning network data into JavaScript objects. This cost is
+equal for JavaScript libraries, as well as for C++ addons making V8 calls.
+
+Also, when a single client can process 5000 MBit/s utilizing a single CPU, your
+MySQL server has long exploded. So finally we should be able to consider
+database drivers a "solved problem" as far as performance is concerned.
 
 Anyway, who cares. Let's stop talking about my unfinished new parser and mysql.
 Let's talk about writing fast JavaScript programs, and what works, and what
@@ -148,7 +153,7 @@ analysis of what functions are consuming a high percentage of time (ticks) in
 your program.
 
 This works really well if your performance is lost in a small function
-performing an inefficient algorithm with my iterations. The profiler will tell
+performing an inefficient algorithm with many iterations. The profiler will tell
 you about this function, you fix the algorithm, and you win.
 
 But, life is never this easy. Your code may not be very profilable. This was
@@ -172,7 +177,6 @@ and they will be able to give you many good ideas and inspiration. However,
 applying this knowledge blindly is never going to result in good performance.
 
 So stop listening to specific performance tips, and instead listen to this.
-
 
 ## What does work
 
