@@ -234,7 +234,7 @@ solving the same problem as me:
 * big switch statements = bad
 * function calls are *really* cheap
 * buffering / concatenating buffers is ok
-* eval is awesome
+* eval is awesome (when using its twin `new Function()`, `eval()` itself sucks)
 
 Here is the eval example:
 
@@ -260,6 +260,12 @@ code += '};\n';
 
 var parseRow = new Function('columns', 'parser', code);
 ```
+
+This optimization turned out to be a huge success, and it's what allowed my
+new parser to gain another 20% of performance after being very fast already.
+
+Of course this could turn into a security problem, but that can be easily fixed
+by escaping the `column.name` properly.
 
 ### Data analysis
 
