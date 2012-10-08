@@ -24,7 +24,7 @@ MASUI](http://twitter.com/masuidrive). But unfortunately he never finished it.
 However, there was something interesting about it. It was written in JavaScript.
 I mean just JavaScript, no C/C++. In fact it was even crazier, because when
 that module was started, node.js did not have Buffers. So this guys was doing
-all the MySQL parsing using JavaScript Strings. WTF (What the Frühstück).
+all the MySQL parsing using JavaScript Strings. WTF!
 
 Btw. here is a piece of node.js trivia - did you know that Buffer was
 originally named Blob in node.js? Thinking about it, Blob would have been a
