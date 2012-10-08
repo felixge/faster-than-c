@@ -296,7 +296,7 @@ the performance of my new parser?
 
 Well, let's look at it another way. Here is a jitter plot:
 
-<img width="640" src="./faster-than-c/raw/master/figures/mysql2-vs-new-parser/pngs/jitter.png">
+<img width="640" src="./faster-than-c/raw/master/figures/mysql2-vs-new-parser/pngs/jitter-annotated.png">
 
 Ok, looks like we have a problem, why are there two clusters of data points
 in each benchmark? Well, let's look at this data another way:
