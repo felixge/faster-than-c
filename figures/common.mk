@@ -3,7 +3,7 @@ SHELL := /bin/bash
 tsv_files = $(addprefix results/,$(addsuffix .tsv,$(benchmarks)))
 png_files = $(subst pdf,png,$(wildcard pdfs/*.pdf))
 
-all: pdfs pngs results
+all: fixtures results pdfs pngs
 
 $(tsv_files):
 	./benchmark/run.js "`basename $@ .tsv`" | tee $@
@@ -21,4 +21,9 @@ $(png_files): pngs/%.png: pdfs/%.pdf
 clean:
 	rm -f results/*.tsv pngs/*.png pdfs/*.pdf
 
-.PHONY: all pdfs pngs results clean
+fixtures: $(fixtures)
+
+$(fixtures):
+	curl -z '$@' -o '$@' "http://felixge.s3.amazonaws.com/12/`basename $@`"
+
+.PHONY: all fixtures pdfs pngs results clean
