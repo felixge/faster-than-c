@@ -332,10 +332,11 @@ and I can now try to fix it.
 And now you know almost everything there is to know about writing high
 performance JavaScript:
 
-* Collect data
-* Analyze it
-* Find problems
-* Fix them
-* Repeat
+1. Write a benchmark
+2. Write a little code
+3. Collect data
+4. Find problems
+5. Tweak the code
+6. Goto 3 or 2
 
 That's all I got. Thank you.
