@@ -333,10 +333,9 @@ And now you know almost everything there is to know about writing high
 performance JavaScript:
 
 1. Write a benchmark
-2. Write a little code
+2. Write/change a little code
 3. Collect data
 4. Find problems
-5. Tweak the code
-6. Goto 3 or 2
+6. Goto 2
 
 That's all I got. Thank you.
