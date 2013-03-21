@@ -18,8 +18,8 @@ node.js. Well, that's not quite true.  There was [one
 module](https://github.com/masuidrive/node-mysql) by [Yuichiro
 MASUI](http://twitter.com/masuidrive). But unfortunately he never finished it.
 
-<img width="258" src="./faster-than-c/raw/master/figures/other/yuichiro-masui.png">
-<img width="698" src="./faster-than-c/raw/master/figures/other/node-mysql-original.png">
+<img width="258" src="https://raw.github.com/felixge/faster-than-c/master/figures/other/yuichiro-masui.png">
+<img width="698" src="https://raw.github.com/felixge/faster-than-c/master/figures/other/node-mysql-original.png">
 
 However, there was something interesting about it. It was written in JavaScript.
 I mean just JavaScript, no C/C++. In fact it was even crazier, because when
@@ -47,8 +47,8 @@ because it was based on strings.  Anyway, over a time span of about 3
 months, this code base turned into a working library called
 [node-mysql](http://github.com/felixge/node-mysql) and people started using it.
 
-<img width="236" src="./faster-than-c/raw/master/figures/other/felix-geisendoerfer.png">
-<img width="610" src="./faster-than-c/raw/master/figures/other/node-mysql.png">
+<img width="236" src="https://raw.github.com/felixge/faster-than-c/master/figures/other/felix-geisendoerfer.png">
+<img width="610" src="https://raw.github.com/felixge/faster-than-c/master/figures/other/node-mysql.png">
 
 But ... you know how it is in this universe. No good deed goes unpunished.
 Newton already discovered this in 1687 and is now known as the third law of
@@ -71,13 +71,13 @@ something like this.
 And this is what happened, [Oleg Efimov](https://github.com/Sannis) released a
 new library called [mysql-libmysqlclient](https://github.com/Sannis/node-mysql-libmysqlclient).
 
-<img width="245" src="./faster-than-c/raw/master/figures/other/oleg-efimov.png">
-<img width="614" src="./faster-than-c/raw/master/figures/other/node-mysql-libmysqlclient.png">
+<img width="245" src="https://raw.github.com/felixge/faster-than-c/master/figures/other/oleg-efimov.png">
+<img width="614" src="https://raw.github.com/felixge/faster-than-c/master/figures/other/node-mysql-libmysqlclient.png">
 
 His library had a few disadvantages compared to mine, but it was awesome by
 being much faster:
 
-<img width="640" src="./faster-than-c/raw/master/figures/mysql-libs/pngs/a-b.png">
+<img width="640" src="https://raw.github.com/felixge/faster-than-c/master/figures/mysql-libs/pngs/a-b.png">
 
 This, benchmarks shows the performance of parsing 100.000 rows / ~180 MB of
 network data from the MySQL server.
@@ -97,19 +97,19 @@ So after I overcame my initial resignation, I set out to make my parser faster.
 The current result of that is node-mysql 2.x, which can easily compete against
 libmysql.
 
-<img width="640" src="./faster-than-c/raw/master/figures/mysql-libs/pngs/a-b-c.png">
+<img width="640" src="https://raw.github.com/felixge/faster-than-c/master/figures/mysql-libs/pngs/a-b-c.png">
 
 But again, it didn't take long for the third law of Github to kick in again, and
 a few months ago a new library called [mariasql](https://github.com/mscdex/node-mariasql)
 was released by [Brian White](https://github.com/mscdex).
 
-<img width="237" src="./faster-than-c/raw/master/figures/other/brian-white.png">
-<img width="698" src="./faster-than-c/raw/master/figures/other/node-mariasql.png">
+<img width="237" src="https://raw.github.com/felixge/faster-than-c/master/figures/other/brian-white.png">
+<img width="698" src="https://raw.github.com/felixge/faster-than-c/master/figures/other/node-mariasql.png">
 
 And yet again, it was an amazing performance improvement. As you can see in this
 graph, mariasql is kicking the shit out of my library:
 
-<img width="640" src="./faster-than-c/raw/master/figures/mysql-libs/pngs/a-b-c-d.png">
+<img width="640" src="https://raw.github.com/felixge/faster-than-c/master/figures/mysql-libs/pngs/a-b-c-d.png">
 
 So fuck - maybe it's time to finally give up and accept that I cannot compete
 with a well engineered C binding. C must be faster after all.
@@ -123,7 +123,7 @@ performance.
 So ... I am hacking on a new parser again. And from the looks of it, it will
 allow me to be as fast as the mariaqsql library:
 
-<img width="640" src="./faster-than-c/raw/master/figures/mysql2-vs-new-parser/pngs/bar.png">
+<img width="640" src="https://raw.github.com/felixge/faster-than-c/master/figures/mysql2-vs-new-parser/pngs/bar.png">
 
 Of course, the 3rd law of GitHub would predict that this won't last very long,
 
@@ -298,22 +298,22 @@ no. Otherwise you end up with bullshit. In fact, all of the benchmark graphs
 I have shown you so far are complete bullshit. Remember the benchmark showing
 the performance of my new parser?
 
-<img width="640" src="./faster-than-c/raw/master/figures/mysql2-vs-new-parser/pngs/bar.png">
+<img width="640" src="https://raw.github.com/felixge/faster-than-c/master/figures/mysql2-vs-new-parser/pngs/bar.png">
 
 Well, let's look at it another way. Here is a jitter plot:
 
-<img width="640" src="./faster-than-c/raw/master/figures/mysql2-vs-new-parser/pngs/jitter-annotated.png">
+<img width="640" src="https://raw.github.com/felixge/faster-than-c/master/figures/mysql2-vs-new-parser/pngs/jitter-annotated.png">
 
 Ok, looks like we have a problem, why are there two clusters of data points
 in each benchmark? Well, let's look at this data another way:
 
-<img width="640" src="./faster-than-c/raw/master/figures/mysql2-vs-new-parser/pngs/line.png">
+<img width="640" src="https://raw.github.com/felixge/faster-than-c/master/figures/mysql2-vs-new-parser/pngs/line.png">
 
 So, it seems like performance starts out great, but then something happens and
 things go to hell. Well, I'm not sure what it is yet, but I have a strong suspect.
 Let's have a look at this graph showing the heap used:
 
-<img width="640" src="./faster-than-c/raw/master/figures/mysql2-vs-new-parser/pngs/heap-used.png">
+<img width="640" src="https://raw.github.com/felixge/faster-than-c/master/figures/mysql2-vs-new-parser/pngs/heap-used.png">
 
 As you can see, it seems during the same moment our performance goes to shit,
 v8 decides to give more memory to our programs before performing garbage
@@ -321,7 +321,7 @@ collection.
 
 This can also be seen when looking at the heap total:
 
-<img width="640" src="./faster-than-c/raw/master/figures/mysql2-vs-new-parser/pngs/heap-total.png">
+<img width="640" src="https://raw.github.com/felixge/faster-than-c/master/figures/mysql2-vs-new-parser/pngs/heap-total.png">
 
 So, chances are good that v8 is making the wrong call by growing the heap total
 here. There is also a good chance I'm still doing something stupid.
