@@ -35,7 +35,7 @@ Ryan decided to rename the object [to Buffer](https://github.com/joyent/node/com
 Oh well ... RIP Blob.
 
 Anyway, back to mysql. So masui's module was really inspiring for me. Before I
-saw it, I though the only way to get mysql working was to bind to libmysql.
+saw it, I thought the only way to get mysql working was to bind to libmysql.
 However, the problem is that libmysql is a blocking library and the mechanics
 of integrating a blocking library with node were not very clear back then.
 
